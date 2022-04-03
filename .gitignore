@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/trainer/lightning_logs/
+/trainer/MNIST/
+/trainer/wandb/
