@@ -1,15 +1,15 @@
-from models.med import BertConfig, BertModel
+from clip_lt.blip.models.med import BertConfig, BertModel
 from transformers import BertTokenizer
 
 import torch
 from torch import nn
 import torch.nn.functional as F
 
-from models.blip import create_vit, init_tokenizer, load_checkpoint
+from clip_lt.blip.models.blip import create_vit, init_tokenizer, load_checkpoint
 
 class BLIP_ITM(nn.Module):
     def __init__(self,                 
-                 med_config = 'configs/med_config.json',  
+                 med_config = '../blip/models/med_config.json',
                  image_size = 384,
                  vit = 'base',
                  vit_grad_ckpt = False,
@@ -23,7 +23,7 @@ class BLIP_ITM(nn.Module):
             vit (str): model size of vision transformer
         """               
         super().__init__()
-        
+
         self.visual_encoder, vision_width = create_vit(vit,image_size, vit_grad_ckpt, vit_ckpt_layer)
         self.tokenizer = init_tokenizer()   
         med_config = BertConfig.from_json_file(med_config)
