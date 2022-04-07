@@ -46,7 +46,6 @@ class BLIP_ITM(nn.Module):
         text = self.tokenizer(caption, padding='max_length', truncation=True, max_length=35, 
                               return_tensors="pt").to(image.device) 
 
-                 
         if match_head=='itm':
             output = self.text_encoder(text.input_ids,
                                        attention_mask = text.attention_mask,
@@ -65,7 +64,9 @@ class BLIP_ITM(nn.Module):
             
             sim = image_feat @ text_feat.t()
             return sim
-        
+        elif match_head == 'fe':
+            image_feat = F.normalize(self.vision_proj(image_embeds[:, 0, :]), dim=-1)
+            return image_feat
         
 def blip_itm(pretrained='',**kwargs):
     model = BLIP_ITM(**kwargs)
